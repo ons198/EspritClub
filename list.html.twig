@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClubController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<div class="example-wrapper">
+    <h1>Les formations✅</h1>
+<ul>
+
+    <li><h2> Les titre de formations en majuscule </h2>
+    {%for p in list %}
+{{p.Titre | upper}}  
+
+    {%endfor%}
+    </li>
+
+    <li><h3> Le nombre des formations </h3>
+    <p> Le nombre des formations est : {{list | length}}</p>
+    </li>
+
+    <li><h4>les titres des formations théoriques</h4>
+    {%for p in list%}
+    {%if p.Description is same as "formation theorique"%}
+    {{p.Titre|upper}}
+    {%endif%}
+    {%endfor%}
+    </li>
+
+    <li><h5>le titre de la formation ayant le plus grand nombre de participants.</h5>
+    {% set maxValue = 0 %}
+
+    {% for p in list %}
+    {% set maxValue = max(p.nb_participants, maxValue) %}
+    {% endfor %}
+
+    {% for elt in list %}
+    {% if p.nb_participants == maxValue %}
+    <p>le titre de la formation ayant le plus grand nombre de participants est : {{p.Titre}}</p>
+    {%endif%}
+    {%endfor%}
+    </li>
+    
+
+    <li><h6>le nombre total de participants dans toutes les formations.</h6>
+    {% set nbr=0 %}
+    {% for p in list %}
+    {% set nbr=nbr+p.nb_participants %}
+    {% endfor %}
+    <p> le nombre total des participants est : {{nbr}}</p>
+    </li> 
+
+
+    <li><h7>où le tableau n’est pas défini et/ou vide.</h7>
+    {% if list is defined %}
+    <p> le tableau est bien défini</p>
+    {% endif %}
+    {% if list is empty %}
+    <p> le tab est vide</p>
+    {% else%}
+    <p>le tab contient {{list |length}} participants</p>
+    {%endif %}
+     </li>
+
+    <li><h8>formation n'a aucun participant. </h8>
+    {% for p in list %}
+    {if p.nb_participants==0 %}
+    {{p.ref}}
+
+
+    <a href="{{url('getname',{'name':p.Titre})}}"><input type="submit" value="Participer" name="Participe"</a>
+
+    {%endif %}
+     {%endfor%}
+</li>
+</ul>
+</div>
+{%endblock %}
+
+
